@@ -24,15 +24,18 @@ public class HaikuMasterPatternsProcessor {
         BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Oliver\\Documents\\NlpTrainingData\\HaikuPatterns.txt"));
         String trainingDataRowAsString = br.readLine();
         String haiku = "";
-        while (trainingDataRowAsString != null) {
-            if (!"".equals(trainingDataRowAsString)) {
+        while (true) {
+            if (!"".equals(trainingDataRowAsString) && trainingDataRowAsString != null) {
                 haiku += trainingDataRowAsString;
                 haiku += " ";
-            } else {
+            } else if (!"".equals(haiku) && ("".equals(trainingDataRowAsString) || null == trainingDataRowAsString)) {
                 String taggedHaiku = posTagger.tag(haiku);
                 trainingDataDatabaseAccessor.insertPattern(taggedHaiku);
-                System.out.println(haiku);
+                System.out.println(haiku + " ----> " + taggedHaiku);
                 haiku = "";
+                if (trainingDataRowAsString == null) {
+                    break;
+                }
             }
             trainingDataRowAsString = br.readLine();
         }
