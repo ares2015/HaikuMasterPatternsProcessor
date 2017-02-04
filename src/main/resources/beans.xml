@@ -17,7 +17,7 @@
     </bean>
 
     <bean id="trainingDataDatabaseAccessor"
-          class="com.HaikuMasterTrainingDataProcessor.database.TrainingDataDatabaseAccessorImpl">
+          class="com.haikuMasterPatternsProcessor.database.TrainingDataDatabaseAccessorImpl">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 

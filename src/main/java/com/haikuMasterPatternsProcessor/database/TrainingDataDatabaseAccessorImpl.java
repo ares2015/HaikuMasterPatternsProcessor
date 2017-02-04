@@ -14,7 +14,8 @@ public class TrainingDataDatabaseAccessorImpl implements TrainingDataDatabaseAcc
     }
 
     public void insertPattern(String pattern) {
-
+        String sql = "insert into jos_haiku_master_patterns (pattern) values(?)";
+        jdbcTemplate.update(sql, new Object[]{pattern});
     }
 
 
