@@ -32,13 +32,19 @@ public class PosTaggerImpl implements PosTagger {
             for (CoreLabel token : processedSentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 String word = token.get(CoreAnnotations.TextAnnotation.class);
                 String tag = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-                if (TagsCache.tags.contains(tag)) {
-                    taggedPattern.append(TagsCache.tagsConversionMap.get(tag));
-                    taggedPattern.append(" ");
-                } else {
+                if (ConstantWordsModel.constantWordsModelMap.containsKey(word)) {
                     taggedPattern.append(word);
                     taggedPattern.append(" ");
+                } else {
+                    if (TagsCache.tags.contains(tag)) {
+                        taggedPattern.append(TagsCache.tagsConversionMap.get(tag));
+                        taggedPattern.append(" ");
+                    } else {
+                        taggedPattern.append(word);
+                        taggedPattern.append(" ");
+                    }
                 }
+
             }
         }
 
