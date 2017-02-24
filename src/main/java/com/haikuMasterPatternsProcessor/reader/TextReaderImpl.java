@@ -27,7 +27,7 @@ public class TextReaderImpl implements TextReader {
             while (haikuTrainingDataRow != null) {
                 if(!"".equals(haikuTrainingDataRow)){
                     wholeText += haikuTrainingDataRow;
-                    wholeText += " ";
+                    wholeText += "@";
                     System.out.println(haikuTrainingDataRow);
                 }
                 haikuTrainingDataRow = br.readLine();
