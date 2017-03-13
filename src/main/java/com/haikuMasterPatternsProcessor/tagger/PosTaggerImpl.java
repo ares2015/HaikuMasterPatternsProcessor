@@ -46,7 +46,6 @@ public class PosTaggerImpl implements PosTagger {
                             taggedPattern.append(" ");
                         }
                     }
-
                 }
             }
             taggedPattern.append("@");

@@ -1,14 +1,15 @@
 package com.haikuMasterPatternsProcessor.main;
 
-import com.haikuMasterPatternsProcessor.database.TrainingDataDatabaseAccessor;
 import com.haikuMasterPatternsProcessor.reader.TextReader;
 import com.haikuMasterPatternsProcessor.reader.TextReaderImpl;
 import com.haikuMasterPatternsProcessor.tagger.PosTagger;
 import com.haikuMasterPatternsProcessor.tagger.PosTaggerImpl;
+import com.haikuMasterPatternsProcessor.writer.HaikuPatternsWriter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,15 +20,18 @@ public class HaikuMasterPatternsProcessor {
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
-        TrainingDataDatabaseAccessor trainingDataDatabaseAccessor = (TrainingDataDatabaseAccessor) context.getBean("trainingDataDatabaseAccessor");
+        HaikuPatternsWriter haikuPatternsWriter = (HaikuPatternsWriter) context.getBean("haikuPatternsWriter");
         PosTagger posTagger = new PosTaggerImpl();
         TextReader textReader = new TextReaderImpl();
         List<String> haikus = textReader.read();
+        List<String> taggedHaikus = new ArrayList<>();
         for (String haiku : haikus) {
             String taggedHaiku = posTagger.tag(haiku);
-            trainingDataDatabaseAccessor.insertPattern(taggedHaiku);
+            taggedHaikus.add(taggedHaiku);
             System.out.println(haiku + " ----> " + taggedHaiku);
         }
+        haikuPatternsWriter.write(taggedHaikus);
+
     }
 
 
