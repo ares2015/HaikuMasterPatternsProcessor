@@ -35,8 +35,14 @@ public class PosTaggerImpl implements PosTagger {
                     String word = token.get(CoreAnnotations.TextAnnotation.class);
                     String tag = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                     if (ConstantWordsModel.constantWordsModelMap.containsKey(word)) {
-                        taggedPattern.append(word);
-                        taggedPattern.append(" ");
+                        if (Tags.PRONOUN_PERSONAL.equals(tag)) {
+                            tag = Tags.NOUN;
+                            taggedPattern.append(tag);
+                            taggedPattern.append(" ");
+                        } else {
+                            taggedPattern.append(word);
+                            taggedPattern.append(" ");
+                        }
                     } else {
                         if (TagsCache.tags.contains(tag)) {
                             taggedPattern.append(TagsCache.tagsConversionMap.get(tag));
